@@ -6,8 +6,8 @@ Install the driver:
 Download esptool.py:
 * [Esptool](https://github.com/themadinventor/esptool)
 
-Download espruino:
-* [Espruino](https://github.com/nodemcu/nodemcu-firmware/releases)
+Download NodeMCU:
+* [NodeMCU](https://github.com/nodemcu/nodemcu-firmware/releases)
 
 connect ESP8266 to USBSerial:
 ![Source: http://iot-playground.com/images/articles/016/esp8266-reflash-firmware.png](schemas/1.png)
@@ -68,6 +68,9 @@ gpio.mode(3, gpio.OUTPUT)
 gpio.write(3, gpio.UP)
 gpio.write(3, gpio.DOWN)
 ```
+
+# Node GPIO Map
+![Source: http://pedrominatel.com.br/eletronica/esp8266-o-guia-basico-de-hardware/](schemas/4.png)
 
 # Useful links
 * [https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en](https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en)

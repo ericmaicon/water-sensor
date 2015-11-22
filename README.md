@@ -12,8 +12,8 @@ Some studies about ESP8266:
 * [Espruino firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Espruino.md)
 * [NodeLUA firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodelua.md)
 * [NodeMCU firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodemcu.md)
+* [Using raspberry and ESP8266 as router](https://github.com/ericmaicon/water-sensor/blob/master/docs/Raspberry.md)
 
-===
 # Useful Links
 
 ## Schematics
