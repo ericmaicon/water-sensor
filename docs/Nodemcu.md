@@ -38,6 +38,7 @@ Disconnect and connect the USB again
 
 Open Esplorer:
 [Esplorer](http://esp8266.ru/esplorer/)
+
 Change configs to:
 ```
 port: /dev/cu.usbserial

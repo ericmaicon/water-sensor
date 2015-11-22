@@ -36,7 +36,7 @@ Disconnect and connect the USB again
 ![Source: unkonwn](schemas/3.png)
 
 Install the IDE
-* (Espruino IDE)[https://chrome.google.com/webstore/detail/espruino-web-ide/bleoifhkdalbjfbobjackfdifdneehpo?hl=pt-BR]
+* [Espruino IDE](https://chrome.google.com/webstore/detail/espruino-web-ide/bleoifhkdalbjfbobjackfdifdneehpo?hl=pt-BR)
 
 Change the baudrate in settings >> communications:
 > Baud Rate: 9600

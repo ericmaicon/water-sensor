@@ -37,7 +37,7 @@ Disconnect and connect the USB again
 
 
 Install minicom
-(Minicom)[http://pbxbook.com/other/sw/minicom-2.2.zip]
+[Minicom](http://pbxbook.com/other/sw/minicom-2.2.zip)
 
 
 Configure minicom:
