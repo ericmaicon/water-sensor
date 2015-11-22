@@ -9,9 +9,9 @@ It has a USBSerial to update the ESP8266 firmware and code.
 
 Some studies about ESP8266:
 
-* [Espruino firmware](blob/master/docs/Espruino.md)
-* [NodeLUA firmware](blob/master/docs/Nodelua.md)
-* [NodeMCU firmware](blob/master/docs/Nodemcu.md)
+* [Espruino firmware](master/docs/Espruino.md)
+* [NodeLUA firmware](master/docs/Nodelua.md)
+* [NodeMCU firmware](master/docs/Nodemcu.md)
 
 ===
 # Useful Links
