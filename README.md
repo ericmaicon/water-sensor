@@ -5,13 +5,13 @@ This is a project for a master degree with the goal of store water flow data in 
 It uses a flow sensor, connected on an ESP8266 to send it thought the internet to an endpoint.
 It has a USBSerial to update the ESP8266 firmware and code.
 
-* [Roadmap](blob/master/docs/Roadmap.md)
+* [Roadmap](https://github.com/ericmaicon/water-sensor/blob/master/docs/Roadmap.md)
 
 Some studies about ESP8266:
 
-* [Espruino firmware](master/docs/Espruino.md)
-* [NodeLUA firmware](master/docs/Nodelua.md)
-* [NodeMCU firmware](master/docs/Nodemcu.md)
+* [Espruino firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Espruino.md)
+* [NodeLUA firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodelua.md)
+* [NodeMCU firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodemcu.md)
 
 ===
 # Useful Links
