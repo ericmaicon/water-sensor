@@ -17,6 +17,28 @@ connect ESP8266 to USBSerial (Connect the GPI0 to the ground):
 
 ![Source: https://raw.githubusercontent.com/guyz/pyesp8266/master/esp8266_pinout.png](schemas/2.png)
 
+To avoid problem with the tyAMA0 Serial on Raspberry, it needs to follow the the approach below:
+
+```
+vim /etc/inittab
+``` 
+
+Comment:
+> T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100)
+
+```
+vim /boot/cmdline.txt
+```
+
+Remove:
+
+> console=ttyAMA0,115200 kgdboc=ttyAMA0,115200
+
+Reboot raspberry
+
+[https://projects.drogon.net/raspberry-pi/wiringpi/pins/](https://projects.drogon.net/raspberry-pi/wiringpi/pins/)
+
+
 Then, run:
 ```
 ./esptool.py --port=/dev/ttyAMA0 write_flash -fm=dio -fs=32m 0x00000 nodemcu_float_0.9.6-dev_20150704\ 2.bin
@@ -35,6 +57,13 @@ It will return:
 Disconnect and connect the USB again
 
 * If the esptool didn't work and return "Failed to connect to ESP8266", try to desconnect and connect the 3.3V from the ESP.
+
+# Testing
+
+Open Esplorer:
+[Esplorer](http://esp8266.ru/esplorer/)
+
+> java -jar ESPlorer.jar
 
 # [OFFTOPIC] WIFI on Raspberry
 
@@ -58,3 +87,5 @@ ifup wlan1
 # Useful Links
 
 [https://projects.drogon.net/raspberry-pi/wiringpi/pins/](https://projects.drogon.net/raspberry-pi/wiringpi/pins/)
+
+[http://randomnerdtutorials.com/how-to-make-two-esp8266-talk/](http://randomnerdtutorials.com/how-to-make-two-esp8266-talk/)
