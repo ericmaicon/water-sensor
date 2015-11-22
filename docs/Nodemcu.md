@@ -70,7 +70,6 @@ gpio.write(3, gpio.DOWN)
 ```
 
 # Useful links
-[https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en](https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en)
-[
-https://github.com/nodemcu/nodemcu-devkit/wiki/Getting-Started-on-OSX](
+* [https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en](https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en)
+* [https://github.com/nodemcu/nodemcu-devkit/wiki/Getting-Started-on-OSX](
 https://github.com/nodemcu/nodemcu-devkit/wiki/Getting-Started-on-OSX)
