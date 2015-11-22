@@ -10,8 +10,8 @@ Download espruino:
 [Espruino](https://github.com/nodemcu/nodemcu-firmware/releases)
 
 connect ESP8266 to USBSerial:
-![Pinout](https://raw.githubusercontent.com/guyz/pyesp8266/master/esp8266_pinout.png)
-![Firmware](http://iot-playground.com/images/articles/016/esp8266-reflash-firmware.png)
+![Source: http://iot-playground.com/images/articles/016/esp8266-reflash-firmware.png](schemas/1.png)
+![Source: https://raw.githubusercontent.com/guyz/pyesp8266/master/esp8266_pinout.png](schemas/2.png)
 
 Then, run:
 ```
@@ -29,18 +29,32 @@ Disconnect and connect the USB again
 
 ===
 # Testing
-Comunicando com espruino:
-Mude a combinação dos fios para a imagem 3
+![Source: unkonwn](schemas/3.png)
 
-Install the IDE
-(Espruino IDE)[https://chrome.google.com/webstore/detail/espruino-web-ide/bleoifhkdalbjfbobjackfdifdneehpo?hl=pt-BR]
+Open Esplorer:
+[Esplorer](http://esp8266.ru/esplorer/)
+Change configs to:
+```
+port: /dev/cu.usbserial
+baudrate 9600
+```
+Click on Open, it should show:
 
-Change the baudrate in settings >> communications:
-> Baud Rate: 9600
+> PORT OPEN 9600
+> 
+> Communication with MCU...
+> Got answer! AutoDetect firmware...
+> 
+> Can't autodetect firmware, because proper answer not received.
 
-Connect using /dev/cu.usbserial
+Use the following script to do a Hello World:
+[https://github.com/nodemcu/nodemcu-devkit/wiki/A-Simple-First-Script](https://github.com/nodemcu/nodemcu-devkit/wiki/A-Simple-First-Script)
 
+After put the script on the left side, press "Save to ESP". It will show the script, line by line, on the right side.
+
+===
 # Useful links
+[https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en](https://github.com/nodemcu/nodemcu-firmware/wiki/nodemcu_api_en)
 [
 https://github.com/nodemcu/nodemcu-devkit/wiki/Getting-Started-on-OSX](
 https://github.com/nodemcu/nodemcu-devkit/wiki/Getting-Started-on-OSX)

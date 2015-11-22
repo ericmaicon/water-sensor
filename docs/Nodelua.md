@@ -3,8 +3,8 @@
 Download esptool.py:
 [Esptool](https://github.com/themadinventor/esptool)
 
-Download espruino:
-[Espruino](https://github.com/espruino/EspruinoBuilds/tree/master/ESP8266)
+Download nodelua:
+[Nodelua](http://nodelua.org/download_firmware)
 
 connect ESP8266 to USBSerial:
 ![Source: http://iot-playground.com/images/articles/016/esp8266-reflash-firmware.png](schemas/1.png)
@@ -12,7 +12,7 @@ connect ESP8266 to USBSerial:
 
 Then, run:
 ```
-./esptool.py -p /dev/cu.usbserial write_flash 0x00000 EspruinoBuilds-master/ESP8266/espruino_esp8266_board_0x00000.bin 0x010000 EspruinoBuilds-master/ESP8266/espruino_esp8266_board_0x10000.bin
+./esptool.py -p /dev/cu.usbserial write_flash 0x00000 nodelua_8266.fw
 ```
 
 It will return:
@@ -30,10 +30,15 @@ Disconnect and connect the USB again
 # Testing
 ![Source: unkonwn](schemas/3.png)
 
-Install the IDE
-(Espruino IDE)[https://chrome.google.com/webstore/detail/espruino-web-ide/bleoifhkdalbjfbobjackfdifdneehpo?hl=pt-BR]
+Install minicom
+(Minicom)[http://pbxbook.com/other/sw/minicom-2.2.zip]
 
-Change the baudrate in settings >> communications:
-> Baud Rate: 9600
+Configure minicom:
+> /opt/minicom/2.2/bin/minicom -s
 
-Connect using /dev/cu.usbserial
+Connect:
+> /opt/minicom/2.2/bin/minicom -D /dev/cu.usbserial -b 115200 -c on
+
+===
+# Useful links
+[http://nodelua.org/doc/tutorial/make-your-first-node/](http://nodelua.org/doc/tutorial/make-your-first-node/)
