@@ -1,1 +1,6 @@
 .DS_Store
+.idea/
+js/config/config.json
+js/db/
+js/receive/node_modules/
+js/sync/node_modules/
