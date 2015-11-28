@@ -23,7 +23,8 @@ db.serialize(function() {
         '   "id" INTEGER PRIMARY KEY AUTOINCREMENT,'+
         '   "device_id" INTEGER NOT NULL,'+
         '   "flow" FLOAT NOT NULL,'+
-        '   "time" FLOAT NOT NULL'+
+        '   "time" FLOAT NOT NULL,'+
+        '   "date" DATETIME NOT NULL'+
         ')');
     }
 });
@@ -36,7 +37,7 @@ app.get('/', function (req, res) {
     var time = params.time;
 
     if (device_id && flow && time) {
-        var stmt = db.prepare("INSERT INTO 'flow' (device_id, flow, time) VALUES (?, ?, ?)");
+        var stmt = db.prepare("INSERT INTO 'flow' (device_id, flow, time, date) VALUES (?, ?, ?, (DATETIME('now')))");
         stmt.run({
             1: device_id,
             2: flow,

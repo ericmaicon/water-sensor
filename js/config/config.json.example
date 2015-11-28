@@ -1,6 +1,6 @@
 {
-    "ip": "",
-    "username": "",
+    "host": "",
+    "user": "",
     "password": "",
     "database": ""
 }
