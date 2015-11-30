@@ -2,5 +2,6 @@
 .idea/
 js/config/config.json
 js/db/
+js/prepare/node_modules/
 js/receive/node_modules/
 js/sync/node_modules/

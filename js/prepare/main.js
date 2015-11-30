@@ -1,9 +1,6 @@
 var fs = require("fs");
 var sqlite3 = require("sqlite3").verbose();
 
-//express
-var app = express();
-
 //sqlite
 var dbFile = "../db/sync.db";
 var dbExists = fs.existsSync(dbFile);
