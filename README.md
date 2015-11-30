@@ -7,11 +7,15 @@ It has a USBSerial to update the ESP8266 firmware and code.
 
 * [Roadmap](https://github.com/ericmaicon/water-sensor/blob/master/docs/Roadmap.md)
 
-Some studies about ESP8266:
+Some research about ESP8266:
 
 * [Espruino firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Espruino.md)
 * [NodeLUA firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodelua.md)
 * [NodeMCU firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodemcu.md)
+
+Raspberry:
+
+* [Install Debian on Raspberry from Mac](https://github.com/ericmaicon/water-sensor/blob/master/docs/Install-Raspberry.md)
 * [Using raspberry and ESP8266 as router](https://github.com/ericmaicon/water-sensor/blob/master/docs/Raspberry.md)
 
 # Useful Links

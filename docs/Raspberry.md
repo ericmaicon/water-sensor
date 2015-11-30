@@ -65,23 +65,6 @@ Open Esplorer:
 
 > java -jar ESPlorer.jar
 
-# [OFFTOPIC] WIFI on Raspberry
-
-```
-vim /etc/network/interfaces
-```
-
-> auto wlan0
-> allow-hotplug wlan0
-> iface wlan0 inet dhcp
-> wpa-ssid "WIFI_NAME"
-> wpa-psk "WIFI_PASS"
-
-```
-ifdown wlan0
-ifup wlan1
-```
-
 [http://randomnerdtutorials.com/how-to-make-two-esp8266-talk/](http://randomnerdtutorials.com/how-to-make-two-esp8266-talk/)
 
 # Useful Links

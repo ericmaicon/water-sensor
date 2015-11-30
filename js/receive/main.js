@@ -1,4 +1,3 @@
-var fs = require("fs");
 var express = require('express');
 var sqlite3 = require("sqlite3").verbose();
 
@@ -7,27 +6,7 @@ var app = express();
 
 //sqlite
 var dbFile = "../db/sync.db";
-var dbExists = fs.existsSync(dbFile);
-
-if(!dbExists) {
-    console.log("Creating DB file.");
-    fs.openSync(dbFile, "w");
-}
-
 var db = new sqlite3.Database(dbFile);
-
-// Database initialization
-db.serialize(function() {
-    if(!dbExists) {
-        db.run('CREATE TABLE "flow" ('+
-        '   "id" INTEGER PRIMARY KEY AUTOINCREMENT,'+
-        '   "device_id" INTEGER NOT NULL,'+
-        '   "flow" FLOAT NOT NULL,'+
-        '   "time" FLOAT NOT NULL,'+
-        '   "date" DATETIME NOT NULL'+
-        ')');
-    }
-});
 
 //Route
 app.get('/', function (req, res) {
