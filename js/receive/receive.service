@@ -2,9 +2,7 @@
 Description=Receive worker
 
 [Service]
-Type=Simple
-WorkingDirectory=/home/pi/water-sensor/js/receive/
-ExecStart=/bin/bash /home/pi/water-sensor/js/receive/receive.sh
+ExecStart=/home/pi/water-sensor/js/receive/receive.sh
 Restart=always
 RestartSec=10s
 
