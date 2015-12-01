@@ -1,9 +1,10 @@
 [Unit]
-Desription=Receive worker
+Description=Receive worker
 After=network.target
 
 [Service]
-ExecStart=/home/pi/water-sensor/js/receive/receive.sh
+WorkingDirectory=/home/pi/water-sensor/js/receive/
+ExecStart=/bin/bash receive.sh
 Restart=always
 RestartSec=30
 
