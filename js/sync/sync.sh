@@ -1,3 +1,4 @@
 #!/bin/bash
 
-node ../sync/main.js >> stdout.log & 
+cd /home/pi/water-sensor/js/sync/
+node main.js >> stdout.log &

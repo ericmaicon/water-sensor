@@ -56,7 +56,13 @@ systemctl daemon-reload
 systemctl start receive.service
 ```
 
-#
+# Crontab
+
+```
+crontab -e
+```
+
+*/5 * * * * /home/pi/water-sensor/js/sync/sync.sh
 
 # Useful Links
 
