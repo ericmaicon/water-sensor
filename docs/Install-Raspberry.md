@@ -43,7 +43,23 @@ node -v
 v0.12.0
 ```
 
+# How to keep the process always up
+
+1. Create a receive.service file on /etc/systemd/system/ (or move it)
+2. Activate the service:
+```
+systemctl enable receive.service
+```
+3. Start it:
+```
+systemctl daemon-reload
+systemctl start receive.service
+```
+
+#
+
 # Useful Links
 
 [http://elinux.org/RPi_raspi-config#The_raspi-config_script](http://elinux.org/RPi_raspi-config#The_raspi-config_script)
 [https://learn.adafruit.com/node-embedded-development/installing-node-dot-js](https://learn.adafruit.com/node-embedded-development/installing-node-dot-js)
+[http://forums.debian.net/viewtopic.php?f=5&t=122427](http://forums.debian.net/viewtopic.php?f=5&t=122427)
