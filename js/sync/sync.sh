@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node ../sync/main.js
+node ../sync/main.js >> stdout.log & 
