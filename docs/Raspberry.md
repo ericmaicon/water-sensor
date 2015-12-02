@@ -31,6 +31,8 @@ connect ESP8266 to USBSerial (Connect the GPI0 to the ground):
 
 ![Source: https://raw.githubusercontent.com/guyz/pyesp8266/master/esp8266_pinout.png](schemas/2.png)
 
+![Source: http://www.esp8266.com/wiki/doku.php?id=raspberrypi:getting_started](schemas/6.png)
+
 To avoid problem with the tyAMA0 Serial on Raspberry, it needs to follow the approach below:
 
 ```
@@ -85,7 +87,21 @@ It should show at the end:
 
 > --->>> All done <<<---
 
-# Testing
+# Checking the print on Serial:
+
+Install screen:
+
+```
+sudo apt-get install screen
+```
+
+run it:
+
+```
+screen /dev/ttyAMA0 9600
+```
+
+# Testing via startx
 
 Open Esplorer:
 [Esplorer](http://esp8266.ru/esplorer/)

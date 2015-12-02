@@ -32,3 +32,5 @@ Raspberry:
 ## ESP8266
 * [GPIO API](http://esp8266.co.uk/tutorials/introduction-to-the-gpio-api/)
 * [Flow Sensor and ESP8266](http://www.esp8266.com/viewtopic.php?f=18&t=5624)
+* [Two ESP8266 talking](http://randomnerdtutorials.com/how-to-make-two-esp8266-talk/)
+* [Log data in MySQL](https://primalcortex.wordpress.com/2015/02/19/esp8266-logging-data-in-a-mysql-database/)
