@@ -11,7 +11,7 @@ print("Server IP Address:", wifi.ap.getip())
 sv = net.createServer(net.TCP) 
 sv:listen(80, function(conn)
     conn:on("receive", function(conn, receivedData) 
-        print("Received Data: " .. receivedData)  
+        print(receivedData)  
         
         anotherConn = net.createConnection(net.TCP, false)
         anotherConn:connect(3000, "192.168.25.4")
