@@ -4,5 +4,7 @@ js/config/config.json
 js/db/
 js/prepare/node_modules/
 js/receive/node_modules/
+js/receive/stdout.log
 js/sync/node_modules/
 js/sync/stdout.log
+
