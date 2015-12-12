@@ -18,24 +18,40 @@ function pulseUp(level)
 end
 
 
---===INIT===--
+--===WIFI===--
 --starting the wifi and connect to the server
-wifi.sta.disconnect()
-wifi.setmode(wifi.STATION) 
-wifi.sta.config("WIFI_FLOW_SENSOR","wMm2XKBgdYdeH2G2vGwM")
-wifi.sta.connect() 
-print("Connecting...")
+function wifiConnect()
+    wifi.sta.disconnect()
+    wifi.setmode(wifi.STATION) 
+    wifi.sta.config("WIFI_FLOW_SENSOR","wMm2XKBgdYdeH2G2vGwM")
+    wifi.sta.connect() 
+    print("Connecting...")
 
-tmr.alarm(0, 2000, 1, function()
+    tmr.alarm(0, 2000, 1, function()
+        if(wifi.sta.getip() ~= nil) then
+            tmr.stop(0)
+            print("Connected!")
+            print("Client IP Address:", wifi.sta.getip())
+          else
+             print("Connecting...")
+          end
+    end)
+end
+
+--send data to the server
+function sendData (localFlowTime, localFlowAmount, localDeviceId)
     if(wifi.sta.getip() ~= nil) then
-        tmr.stop(0)
-        print("Connected!")
-        print("Client IP Address:", wifi.sta.getip())
-      else
-         print("Connecting...")
-      end
-end)
+        print("Sending...")
+        cl=net.createConnection(net.TCP, false)
+        cl:connect(80, serverIp)
+        cl:send(localFlowTime .. ";" .. localFlowAmount .. ";" .. localDeviceId) 
+    else
+        print("Connection Lost. Connecting again")
+        wifiConnect()
+    end
+end
 
+--===INIT===---
 --===FLOW SENSOR===---
 --set ping as interrupt
 gpio.mode(pin, gpio.INT, gpio.PULLUP)
@@ -57,9 +73,7 @@ tmr.alarm(1, 1000, 1, function()
 
     if (flow == 0 and flowAmount ~= 0) then
         print("Sending: time=" .. flowTime .. "&flow=" .. flowAmount .. "&device_id=" .. deviceId)
-        cl=net.createConnection(net.TCP, false)
-        cl:connect(80, serverIp)
-        cl:send("time=" .. flowTime .. "&flow=" .. flowAmount .. "&device_id=" .. deviceId) 
+        sendData(flowTime, flowAmount, deviceId)
         flowAmount = 0
         flowTime = 0
     end
