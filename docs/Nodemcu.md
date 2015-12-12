@@ -19,8 +19,16 @@ reboot
 Download esptool.py:
 * [Esptool](https://github.com/themadinventor/esptool)
 
+```
+git clone git@github.com:themadinventor/esptool.git
+```
+
 Download NodeMCU:
 * [NodeMCU](https://github.com/nodemcu/nodemcu-firmware/releases)
+
+```
+wget https://github.com/nodemcu/nodemcu-firmware/releases/download/0.9.6-dev_20150704/nodemcu_integer_0.9.6-dev_20150704.bin
+```
 
 connect ESP8266 to USBSerial:
 ![Source: http://iot-playground.com/images/articles/016/esp8266-reflash-firmware.png](schemas/1.png)
@@ -55,6 +63,15 @@ Disconnect and connect the USB again
 
 # Testing
 ![Source: unkonwn](schemas/3.png)
+
+# Send the script to ESP8266
+
+Clone the luatool repository
+```
+git clone git@github.com:4refr0nt/luatool.git
+cd luatool
+./luatool/luatool.py --port /dev/ttyAMA0 --src ../water-sensor/raspberry.lua --dest init.lua --verbose
+```
 
 
 Open Esplorer:
