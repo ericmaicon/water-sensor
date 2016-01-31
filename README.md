@@ -12,6 +12,7 @@ Some research about ESP8266:
 * [Espruino firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Espruino.md)
 * [NodeLUA firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodelua.md)
 * [NodeMCU firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/Nodemcu.md)
+* [AT firmware](https://github.com/ericmaicon/water-sensor/blob/master/docs/AT.md)
 
 Raspberry:
 
