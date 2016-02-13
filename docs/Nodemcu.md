@@ -1,7 +1,7 @@
 # Installing the firmware
 
-Install the driver:
-* [Driver](https://www.silabs.com/Support%20Documents/Software/Mac_OSX_VCP_Driver.zip)
+Install the driver from [FTDI](http://www.ftdichip.com/Drivers/VCP.htm):
+* [Driver](http://www.ftdichip.com/Drivers/VCP/MacOSX/FTDIUSBSerialDriver_v2_2_18.dmg)
 
 Download esptool.py:
 * [Esptool](https://github.com/themadinventor/esptool)
