@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
         stmt.finalize();
         console.log("Device: " + device_id + ", Flow: " + flow + ", Time: " + time + " saved.");
     }
-    res.send("OK");
+    res.send("1");
 });
 
 //Server
