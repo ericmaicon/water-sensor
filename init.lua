@@ -78,6 +78,7 @@ tmr.alarm(1, 1000, 1, function()
         flowTime = 0
     end
 
+    sendData(10, 10, deviceId)
     print("\nTime from start: " .. tmr.time()-startTime)
     print("l/m: " .. flow)
 
