@@ -1,19 +1,15 @@
-#include <SoftwareSerial.h>
+#include <SPI.h>
+#include <UIPEthernet.h>
 
 //pins configuration
-byte sensorInterrupt = 0;  // 0 = digital pin 2
-byte sensorPin = 2;
+byte sensorInterrupt = 1;  // 0 = digital pin 2
+byte sensorPin = 3;
 
-//Wifi + Server config
-String ssid = "GVT-3EF8";
-String pwd = "0148272560";
-String serverIp = "192.241.153.56";
-int serverPort = 80;
+//Lan + Server config
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+IPAddress server(192,241,153,56);
+EthernetClient client;
 String deviceId = "1";
-
-//Serial config
-SoftwareSerial wifi(10, 11); // RX, TX
-
 
 //pulse vars
 volatile byte pulseCount;
@@ -29,7 +25,7 @@ unsigned long oldTime;
 void setup()
 {
     Serial.begin(9600);
-    wifiStart();
+    networkStart();
 
     pinMode(sensorPin, INPUT);
     digitalWrite(sensorPin, HIGH);
@@ -47,6 +43,11 @@ void setup()
  **/
 void loop()
 {
+    if (client.available()) {
+        char c = client.read();
+        Serial.write(c);
+    }
+  
     if ((millis() - oldTime) > 1000)
     {
         // Disable the interrupt while calculating flow rate
@@ -64,7 +65,6 @@ void loop()
         //sum all pulses
         pulseAmount += pulse;
         if (pulseAmount == oldPulseAmount and pulseAmount != 0) {
-            Serial.println(pulseAmount);
             sendOrSave(pulseAmount);
             pulseAmount = 0;
         }
@@ -81,12 +81,14 @@ void loop()
  * Connect to the serial
  * Start the wifi
  **/
-void wifiStart ()
+void networkStart ()
 {
-    wifi.begin(9600);
-    sendCommand("AT+RST", "OK", 60);
-    //bool connected = wifi.joinAP(ssid, pwd);
-    //wifi.enableMUX();
+    if (Ethernet.begin(mac) == 0) {
+        Serial.println("Failed to configure Ethernet using DHCP");
+    }
+    
+    Serial.print("My IP address: ");
+    Serial.println(Ethernet.localIP());
 }
 
 /**
@@ -94,58 +96,19 @@ void wifiStart ()
  **/
 void sendOrSave (float pulseAmount)
 {
-    String params = "device_id=" + deviceId + "&pulse=" + pulseAmount;
-    String command = "POST /index.php?r=api/create HTTP/1.1\r\n";
-    command += "Host: 192.241.153.56\r\n";
-    command += "Content-Type: application/x-www-form-urlencoded\r\n";
-    command += "Content-Length: " + String(params.length()) + "\r\n\r\n";
-    command += params;
+    String params = "device_id=1&pulse=" + String(pulseAmount);
 
-    int commandSize = command.length();
-
-    char charBuf[commandSize];
-    command.toCharArray(charBuf, commandSize);
-
-    //wifi.createTCP(serverIp, serverPort);
-    //10 = counting \r\n for each line on the command above
-    Serial.println(command);
-    //wifi.send(4, (uint8_t *)charBuf, commandSize + 10);
-}
-
-bool sendCommand(String cmd, String goodResponse, unsigned long timeout) {
-    Serial.println("espSendCommand( " + cmd + " , " + goodResponse + " , " + String(timeout) + " )" );
-    wifi.println(cmd);
-    unsigned long tnow = millis();
-    unsigned long tstart = millis();
-    unsigned long execTime = 0;
-    String response = "";
-    char c;
-    while( true ) {
-        if( tnow > tstart + timeout ) {
-            Serial.println("espSendCommand: FAILED - Timeout exceeded " + String(timeout) + " seconds" );
-            if( response.length() > 0 ) {
-                Serial.println("espSendCommand: RESPONSE:");
-                Serial.println( response );
-            } else {
-                Serial.println("espSendCommand: NO RESPONSE");
-            }
-            return false;
-        }
-        c = wifi.read();
-        if( c >= 0 ) {
-            response += String(c);
-            if( response.indexOf(goodResponse) >= 0 ) {
-                execTime = ( millis() - tstart );
-                Serial.println("espSendCommand: SUCCESS - Response time: " + String(execTime) + "ms");
-                Serial.println("espSendCommand: RESPONSE:");
-                Serial.println(response);
-                while(wifi.available() > 0) {
-                    Serial.write(wifi.read());
-                }
-                return true;
-            }
-        }
-        tnow = millis();
+    client.stop();
+    if (client.connect(server, 80)) {
+        Serial.println("Sending: " + params);
+        
+        client.println("POST /index.php?r=api/create HTTP/1.1");
+        client.println("Host: 192.241.153.56");
+        client.println("Content-Type: application/x-www-form-urlencoded");
+        //client.println("Content-Length: " + params.length());
+        client.println(params);
+    } else {
+        Serial.println("connection failed");
     }
 }
 
