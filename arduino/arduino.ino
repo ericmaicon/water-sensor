@@ -6,18 +6,20 @@ byte sensorInterrupt = 1;  // 0 = digital pin 2
 byte sensorPin = 3;
 
 //Lan + Server config
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0x05, 0x05, 0x05 };
 IPAddress server(192,241,153,56);
 EthernetClient client;
-String deviceId = "1";
+String deviceId = "5";
 
 //pulse vars
 volatile byte pulseCount;
-float pulse;
 float pulseAmount;
 float oldPulseAmount;
+float halfTime;
+float timeAmount;
 
-unsigned long oldTime;
+unsigned long currentTime;
+unsigned long cloopTime;
 
 /**
  * Setup
@@ -25,15 +27,11 @@ unsigned long oldTime;
 void setup()
 {
     Serial.begin(9600);
+    Serial.println("Start");
     networkStart();
 
-    pinMode(sensorPin, INPUT);
+    pinMode(sensorPin, INPUT_PULLUP);
     digitalWrite(sensorPin, HIGH);
-
-    pulseCount = 0;
-    pulse = 0;
-    pulseAmount = 0;
-    oldTime = 0;
 
     attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
 }
@@ -43,37 +41,23 @@ void setup()
  **/
 void loop()
 {
-    if (client.available()) {
-        char c = client.read();
-        Serial.write(c);
-    }
-  
-    if ((millis() - oldTime) > 1000)
-    {
-        // Disable the interrupt while calculating flow rate
-        detachInterrupt(sensorInterrupt);
-
-        //the amount of pulse is calculated per seconds. If the flow stops in the middle of a second, 
-        //the following code calculate the fraction of it.
-        pulse = ((1000.0 / (millis() - oldTime)) * pulseCount);
-
-        oldTime = millis();
-
-
+    currentTime = millis();
+    if (currentTime >= (1000 + cloopTime))
+    { 
+        cloopTime = currentTime;
         oldPulseAmount = pulseAmount;
 
         //sum all pulses
-        pulseAmount += pulse;
+        pulseAmount += pulseCount;
+        timeAmount++;
         if (pulseAmount == oldPulseAmount and pulseAmount != 0) {
-            sendOrSave(pulseAmount);
-            pulseAmount = 0;
+            sendOrSave(pulseAmount, timeAmount);
+            timeAmount = 0;
+            pulseAmount = 0;  
         }
 
         // Reset the pulse counter so we can start incrementing again
         pulseCount = 0;
-
-        // Enable the interrupt again now that we've finished sending output
-        attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
     }
 }
 
@@ -94,23 +78,27 @@ void networkStart ()
 /**
  * Send to the API
  **/
-void sendOrSave (float pulseAmount)
+void sendOrSave (float pulseAmount, float timeAmount)
 {
-    String params = "device_id=1&pulse=" + String(pulseAmount);
+    String params = "device_id=" + deviceId + "&pulse=" + String(pulseAmount) + "&time=" +  String(timeAmount);
 
     client.stop();
     if (client.connect(server, 80)) {
-        Serial.println("Sending: " + params);
+        Serial.println("Sending: " + params + " Size: " + String(params.length()));
         
         client.println("POST /index.php?r=api/create HTTP/1.1");
-        client.println("Host: 192.241.153.56");
+        client.println("Host: localhost");
         client.println("Content-Type: application/x-www-form-urlencoded");
-        //client.println("Content-Length: " + params.length());
+        client.println("Content-Length: " + String(params.length()));
+        client.println();
         client.println(params);
+        client.println();
+        Serial.println(client.read());
     } else {
         Serial.println("connection failed");
     }
 }
+
 
 /**
  * Initerrupt Function
