@@ -6,10 +6,10 @@ byte sensorInterrupt = 1;  // 0 = digital pin 2
 byte sensorPin = 3;
 
 //Lan + Server config
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0x05, 0x05, 0x05 };
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0x03, 0x03, 0x03 };
 IPAddress server(192,241,153,56);
 EthernetClient client;
-String deviceId = "5";
+String deviceId = "3";
 
 //pulse vars
 volatile byte pulseCount;
@@ -44,6 +44,9 @@ void loop()
     currentTime = millis();
     if (currentTime >= (1000 + cloopTime))
     { 
+        Serial.println(timeAmount);
+        Serial.println(pulseCount);
+        
         cloopTime = currentTime;
         oldPulseAmount = pulseAmount;
 
@@ -67,9 +70,11 @@ void loop()
  **/
 void networkStart ()
 {
+    Serial.println("Starting ethernet...");
     if (Ethernet.begin(mac) == 0) {
         Serial.println("Failed to configure Ethernet using DHCP");
     }
+    Serial.println("Ethernet finished.");
     
     Serial.print("My IP address: ");
     Serial.println(Ethernet.localIP());
