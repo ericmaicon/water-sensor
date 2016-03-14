@@ -89,6 +89,35 @@ AT+GMR
 > 
 > OK
 
+# Sequence AT commands used to test with the API
+
+AT+CWLAP
+AT+CIFSR
+
+AT+RST
+AT+CWMODE=1
+AT+CIPMUX=1
+AT+CWJAP="",""
+AT+CIPSTART=4,"TCP","192.241.153.56",80
+AT+CIPSEND=4,178
+POST /index.php?r=api/create HTTP/1.1
+Host: 192.241.153.56
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 20
+
+device_id=1&pulse=10
+
+AT+CIPCLOSE
+
 # Useful links
 * [https://www.youtube.com/watch?v=Na7CSbq467M](https://www.youtube.com/watch?v=Na7CSbq467M)
 * [http://electronut.in/an-iot-project-with-esp8266/](http://electronut.in/an-iot-project-with-esp8266/)
+* [http://wiki.iteadstudio.com/ESP8266_Serial_WIFI_Module](http://wiki.iteadstudio.com/ESP8266_Serial_WIFI_Module)
+* [http://www.cse.dmu.ac.uk/~sexton/ESP8266/](http://www.cse.dmu.ac.uk/~sexton/ESP8266/)
+* [http://mcuoneclipse.com/2014/12/14/tutorial-iot-datalogger-with-esp8266-wifi-module-and-frdm-kl25z/](http://mcuoneclipse.com/2014/12/14/tutorial-iot-datalogger-with-esp8266-wifi-module-and-frdm-kl25z/)
+* [http://rootpower.com/?p=73](http://rootpower.com/?p=73)
+* [http://contractorwolf.com/esp8266-wifi-arduino-micro/](http://contractorwolf.com/esp8266-wifi-arduino-micro/)
+* [https://github.com/contractorwolf/ESP8266](https://github.com/contractorwolf/ESP8266)
+* [http://br-arduino.org/2015/05/esp8266-arduino-facil.html](http://br-arduino.org/2015/05/esp8266-arduino-facil.html)
+* [https://cdn.sparkfun.com/assets/learn_tutorials/4/0/3/4A-ESP8266__AT_Instruction_Set__EN_v0.30.pdf](https://cdn.sparkfun.com/assets/learn_tutorials/4/0/3/4A-ESP8266__AT_Instruction_Set__EN_v0.30.pdf)
+* [http://aura-comms.com/ac/getting-started-with-the-esp8266/](http://aura-comms.com/ac/getting-started-with-the-esp8266/)

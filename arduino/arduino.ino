@@ -1,114 +1,133 @@
-#include <SPI.h>
-#include <UIPEthernet.h>
+#include <EtherCard.h>
 
-//pins configuration
-byte sensorInterrupt = 1;  // 0 = digital pin 2
+byte sensorInterrupt = 1;
 byte sensorPin = 3;
 
-//Lan + Server config
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0x03, 0x03, 0x03 };
-IPAddress server(192,241,153,56);
-EthernetClient client;
+//CHANGE
 String deviceId = "3";
+uint8_t mac[6] = {0x00,0x01,0x02,0x03,0x03,0x03};
+const static uint8_t ip[] = {192,168,25,203};
+//CHANGE
 
-//pulse vars
-volatile byte pulseCount;
+const static uint8_t gw[] = {192,168,25,1};
+const static uint8_t dns[] = {192,168,25,1};
+const char website[] PROGMEM = "ruanydepaula.com.br";
+const static uint8_t serverIp[] = {192,241,153,56};
+byte Ethernet::buffer[700];
+static byte session;
+Stash stash;
+volatile byte pulseCount;  
+float pulse;
 float pulseAmount;
 float oldPulseAmount;
-float halfTime;
-float timeAmount;
+unsigned long oldTime;
+long startTime;
 
-unsigned long currentTime;
-unsigned long cloopTime;
-
-/**
- * Setup
- **/
 void setup()
 {
     Serial.begin(9600);
-    Serial.println("Start");
     networkStart();
 
     pinMode(sensorPin, INPUT_PULLUP);
-    digitalWrite(sensorPin, HIGH);
-
     attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
 }
 
-/**
- * Main program loop
- **/
 void loop()
 {
-    currentTime = millis();
-    if (currentTime >= (1000 + cloopTime))
+    receiveAnswer();
+    
+    if ((millis() - oldTime) > 1000)
     { 
-        Serial.println(timeAmount);
-        Serial.println(pulseCount);
-        
-        cloopTime = currentTime;
-        oldPulseAmount = pulseAmount;
+        detachInterrupt(sensorInterrupt);
 
-        //sum all pulses
-        pulseAmount += pulseCount;
-        timeAmount++;
-        if (pulseAmount == oldPulseAmount and pulseAmount != 0) {
-            sendOrSave(pulseAmount, timeAmount);
-            timeAmount = 0;
-            pulseAmount = 0;  
+        pulse = ((1000.0 / (millis() - oldTime)) * pulseCount);
+        Serial.println("Pulse: " + String(pulse));
+
+        if (pulseAmount == 0 and pulseCount > 0) {
+            startTime = millis();
         }
 
-        // Reset the pulse counter so we can start incrementing again
+        oldPulseAmount = pulseAmount;
+        pulseAmount += pulse;
+
+        if (pulseAmount == oldPulseAmount and pulseAmount != 0) {
+            float timeAmount = (millis()-startTime)/1000;
+            Serial.println("Pulse Amount: " + String(pulseAmount));
+            Serial.println("Time Amount: " + String(timeAmount));
+        
+            sendToServer(pulseAmount, timeAmount);
+            pulseAmount = 0;
+        }
+
+        oldTime = millis();
         pulseCount = 0;
+
+        attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
     }
 }
 
-/**
- * Connect to the serial
- * Start the wifi
- **/
 void networkStart ()
 {
     Serial.println("Starting ethernet...");
-    if (Ethernet.begin(mac) == 0) {
-        Serial.println("Failed to configure Ethernet using DHCP");
+    if (ether.begin(sizeof Ethernet::buffer, mac, 10) == 0) {
+        Serial.println(F("Failed to access Ethernet controller"));
     }
-    Serial.println("Ethernet finished.");
     
-    Serial.print("My IP address: ");
-    Serial.println(Ethernet.localIP());
+    if (!ether.staticSetup(ip, gw, dns)) {
+        Serial.println(F("Static IP failed"));
+    }
+
+    ether.printIp("IP:  ", ether.myip);
+
+    dnsLookup();
 }
 
-/**
- * Send to the API
- **/
-void sendOrSave (float pulseAmount, float timeAmount)
+void sendToServer (float pulseAmount, float timeAmount)
 {
-    String params = "device_id=" + deviceId + "&pulse=" + String(pulseAmount) + "&time=" +  String(timeAmount);
+    dnsLookup();
 
-    client.stop();
-    if (client.connect(server, 80)) {
-        Serial.println("Sending: " + params + " Size: " + String(params.length()));
-        
-        client.println("POST /index.php?r=api/create HTTP/1.1");
-        client.println("Host: localhost");
-        client.println("Content-Type: application/x-www-form-urlencoded");
-        client.println("Content-Length: " + String(params.length()));
-        client.println();
-        client.println(params);
-        client.println();
-        Serial.println(client.read());
-    } else {
-        Serial.println("connection failed");
+    String params = "device_id=" + deviceId + "&pulse=" + String(pulseAmount) + "&time=" +  String(timeAmount);
+    Serial.println("Sending: " + params + " Size: " + String(params.length()));
+
+    byte sd = stash.create();
+    stash.print(params);
+    stash.save();
+    int stashSize = stash.size();
+
+    Stash::prepare(PSTR("POST http://$F/index.php?r=api/create HTTP/1.1" "\r\n"
+"Host: $F \r\n"
+"Content-Length: $D" "\r\n"
+"Content-Type: application/x-www-form-urlencoded \r\n"
+"\r\n"
+"$H"), website, website, stashSize, sd);
+
+    session = ether.tcpSend();
+    if (stash.freeCount() <= 3) {
+        Stash::initMap(56);
     }
 }
 
+void dnsLookup ()
+{
+    if (!ether.dnsLookup(website)) {
+        Serial.println(F("DNS failed"));
+    }
 
-/**
- * Initerrupt Function
- **/
+    ether.printIp("SRV: ", ether.hisip);
+}
+
+void receiveAnswer ()
+{
+    ether.packetLoop(ether.packetReceive());
+  
+    const char* reply = ether.tcpReply(session);
+    if (reply != 0) {
+        Serial.println(reply);
+    }
+}
+
 void pulseCounter ()
 {
     pulseCount++;
 }
+

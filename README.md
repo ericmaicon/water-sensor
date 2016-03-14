@@ -28,7 +28,11 @@ Raspberry:
 ## Flow Sensor
 * [Sensor](http://www.seeedstudio.com/wiki/G1'1/4_Water_Flow_sensor)
 * [Datasheet](http://www.seeedstudio.com/depot/datasheet/water%20flow%20sensor%20datasheet.pdf)
+* [Datasheet](http://www.hobbytronics.co.uk/datasheets/sensors/YF-S201.pdf)
 * [Portuguese Tutorial](http://labdegaragem.com/profiles/blogs/tutorial-como-utilizar-o-sensor-de-fluxo-de-agua)
+* [Code example](http://www.hobbytronics.co.uk/download/YF-S201.ino)
+* [Tutorial](http://diyhacking.com/arduino-flow-rate-sensor/)
+* [Code example](http://diyhacking.com/projects/FlowMeterDIY.ino)
 
 ## ESP8266
 * [GPIO API](http://esp8266.co.uk/tutorials/introduction-to-the-gpio-api/)
