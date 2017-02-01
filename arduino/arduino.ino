@@ -85,7 +85,6 @@ void loop()
         pulse = ((1000.0 / (millis() - oldTime)) * pulseCount);
         Serial.println("Pulse: " + String(pulse));
 
-        pulse = 100;
         if (pulse != 0) {
             sendToServer(pulse);
             pulseTotal += pulse;
